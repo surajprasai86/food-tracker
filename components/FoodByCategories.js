@@ -11,7 +11,7 @@ function FoodByCategories({ foodByCategories }) {
       <Row>
         {foodByCategories.length > 0 ? (
           foodByCategories.map((food, index) => (
-            <Col sm={4} key={index}>
+            <Col style={{marginBottom:"14px"}} sm={4} key={index}>
               <Card style={{ width: "18rem" }}>
                 <Card.Img variant="top" src="/pumpkin.jpg" />
                 <Card.Body>

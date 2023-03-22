@@ -10,8 +10,7 @@ import { GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebas
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-function Header() {
-  
+function Header() {  
   const [loading, setLoading] = useState(false);
   const googleProvider = new GoogleAuthProvider()
   const [user, setUser] = useAuthState(auth)
@@ -43,7 +42,7 @@ function Header() {
               <Nav.Link href="#home">Food List</Nav.Link>
               <NavDropdown title="Food Categories" id="basic-nav-dropdown">
                 {foodData.foodCategories.map((category) => (
-                  <NavDropdown.Item href={`/food-by-categories/${category}`}>
+                  <NavDropdown.Item href={`/food-by-categories/${String(category).toLocaleLowerCase()}`}>
                     {category}
                   </NavDropdown.Item>
                 ))}
@@ -52,12 +51,12 @@ function Header() {
                   Add Manual Categories
                 </NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link href="#fooditem"> Add Food Item </Nav.Link>
+              <Nav.Link href="/add-food/AddFood"> Add Food Item </Nav.Link>
               <Nav.Link href="#fodlog"> Food Log</Nav.Link>
             </Nav>
            {!user ? <Button loading  onClick={singInWithGoogle} variant="secondary" size="lg"  disabled={loading}>
               {0 ? "Loading..." : "Sign up with Google"}
-            </Button> :  <Image className="avatar" src={user.photoURL} width={100} height={100} alt="" />}
+            </Button> :  <Image className="avatar" src={user.photoURL} width={250} height={250} alt="" />}
           </Navbar.Collapse>
         </Container>
       </Navbar>
