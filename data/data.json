@@ -16,6 +16,14 @@
     "Oils and Fats",
     "Snacks"
   ],
+  "nutritionNames": [
+    { "name": "calories", "healthyAmountRDA": 2000 },
+    { "name": "protein", "healthyAmountRDA": 50 },
+    { "name": "carbs", "healthyAmountRDA": 130 },
+    { "name": "fat", "healthyAmountRDA": 60 },
+    { "name": "fiber", "healthyAmountRDA": 25 },
+    { "name": "sugar", "healthyAmountRDA": 25 }
+  ],
   "foodList": [
     {
       "id": 1,

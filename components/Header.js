@@ -39,7 +39,7 @@ function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#home">Food List</Nav.Link>
+              <Nav.Link href="/">Food List</Nav.Link>
               <NavDropdown title="Food Categories" id="basic-nav-dropdown">
                 {foodData.foodCategories.map((category) => (
                   <NavDropdown.Item href={`/food-by-categories/${String(category).toLocaleLowerCase()}`}>
@@ -52,7 +52,7 @@ function Header() {
                 </NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="/add-food/AddFood"> Add Food Item </Nav.Link>
-              <Nav.Link href="#fodlog"> Food Log</Nav.Link>
+              <Nav.Link href="/add-food/AddFood"> Food Log</Nav.Link>
             </Nav>
            {!user ? <Button loading  onClick={singInWithGoogle} variant="secondary" size="lg"  disabled={loading}>
               {0 ? "Loading..." : "Sign up with Google"}

@@ -1,38 +1,37 @@
 import React, { createContext, useState, useEffect } from "react";
 import firebase from "firebase/app";
-import "firebase/auth";
+import {auth} from "../auth/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import foodData from "../data/data.json";
+import userFoodConsumptionDetails from "../data/userFoodConsumptionDetails.json"
 
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-  const [data, setData] = useState([]);
+//   const [data, setData] = useState([]);
+  const [user, loading, error]  = useAuthState(auth)
   const [authState, setAuthState] = useState({});
+
 
   useEffect(() => {
     // Fetch data here and set the state
-    const fetchData = async () => {
-      const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-      const data = await response.json();
-      setData(data);
-    };
+    
     // fetchData();
 
     // Set up Firebase authentication state listener
-    const authListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setAuthState({ user });
       } else {
         setAuthState({});
       }
-    });
 
     return () => {
-      authListener();
+      // authListener();
     };
   }, []);
 
   return (
-    <DataContext.Provider value={{ data, authState, setAuthState }}>
+    <DataContext.Provider value={{ foodData, authState, setAuthState, userFoodConsumptionDetails }}>
       {children}
     </DataContext.Provider>
   );

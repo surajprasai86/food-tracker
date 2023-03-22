@@ -1,0 +1,112 @@
+{
+  "users": {
+    "user_id_1": {
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "password": "hashed_password_1",
+      "gender": "male",
+      "birthdate": "1990-01-01",
+      "weight": 80,
+      "height": 180,
+      "daily_calorie_goal": 2000,
+      "daily_nutrient_goals": {
+        "calories": 2000,
+        "protein": 50,
+        "carbs": 130,
+        "fat": 60,
+        "fiber": 25,
+        "sugar": 25
+      }
+    },
+    "user_id_2": {
+      "name": "Jane Doe",
+      "email": "jane.doe@example.com",
+      "password": "hashed_password_2",
+      "gender": "female",
+      "birthdate": "1995-02-15",
+      "weight": 65,
+      "height": 165,
+      "daily_calorie_goal": 1800,
+      "daily_nutrient_goals": {
+        "calories": 1800,
+        "protein": 45,
+        "carbs": 120,
+        "fat": 55,
+        "fiber": 30,
+        "sugar": 20
+      }
+    }
+  },
+  "meals": {
+    "meal_id_1": {
+      "userId": "user_id_1",
+      "date": "2022-03-22",
+      "time": "12:00:00",
+      "name": "Chicken Salad",
+      "calories": 500,
+      "protein": 30,
+      "carbs": 20,
+      "fat": 10,
+      "fiber": 5,
+      "sugar": 2
+    },
+    "meal_id_2": {
+      "userId": "user_id_1",
+      "date": "2022-03-22",
+      "time": "18:00:00",
+      "name": "Pasta",
+      "calories": 800,
+      "protein": 20,
+      "carbs": 120,
+      "fat": 15,
+      "fiber": 8,
+      "sugar": 5
+    },
+    "meal_id_3": {
+      "userId": "user_id_2",
+      "date": "2022-03-22",
+      "time": "13:30:00",
+      "name": "Greek Salad",
+      "calories": 400,
+      "protein": 20,
+      "carbs": 30,
+      "fat": 25,
+      "fiber": 10,
+      "sugar": 3
+    },
+    "meal_id_4": {
+      "userId": "user_id_2",
+      "date": "2022-03-22",
+      "time": "19:00:00",
+      "name": "Grilled Salmon",
+      "calories": 600,
+      "protein": 40,
+      "carbs": 10,
+      "fat": 45,
+      "fiber": 5,
+      "sugar": 1
+    }
+  },
+  "weights": {
+    "weight_id_1": {
+      "userId": "user_id_1",
+      "date": "2022-03-21",
+      "weight": 79.5
+    },
+    "weight_id_2": {
+      "userId": "user_id_1",
+      "date": "2022-03-22",
+      "weight": 80.2
+    },
+    "weight_id_3": {
+      "userId": "user_id_2",
+      "date": "2022-03-21",
+      "weight": 64.5
+    },
+    "weight_id_4": {
+      "userId": "user_id_2",
+      "date": "2022-03-22",
+      "weight": 64.8
+    }
+  }
+} 
