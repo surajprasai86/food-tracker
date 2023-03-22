@@ -1,0 +1,101 @@
+{
+  "name": "Food Collection",
+  "foodCategories": [
+    "Bakery",
+    "Dairy",
+    "Fruits",
+    "Grains",
+    "Meat",
+    "Seafood",
+    "Vegetables",
+    "Beverages",
+    "Candy",
+    "Condiments",
+    "Herbs and Spices",
+    "Nuts and Seeds",
+    "Oils and Fats",
+    "Snacks"
+  ],
+  "foodList": [
+    {
+      "id": 1,
+      "name": "Carrot",
+      "Category": "vegetable",
+      "calorie": "",
+      "carbhodyrate": "",
+      "protein": "",
+      "safetyScore": "",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "name": "Cabbage",
+      "Category": "vegetables",
+      "calorie": "",
+      "carbhodyrate": "",
+      "protein": "",
+      "safetyScore": "",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "name": "lamb",
+      "Category": "meat",
+      "calorie": "",
+      "carbhodyrate": "",
+      "protein": "",
+      "safetyScore": "",
+      "image": ""
+    },
+    {
+      "id": 4,
+      "name": "Pumpkin",
+      "Category": "vegetables",
+      "calorie": "",
+      "carbhodyrate": "",
+      "protein": "",
+      "safetyScore": "",
+      "image": ""
+    },
+    {
+      "id": 5,
+      "name": "Milk",
+      "Category": "Dairy",
+      "calorie": "",
+      "carbhodyrate": "",
+      "protein": "",
+      "safetyScore": "",
+      "image": ""
+    },
+    {
+      "id": 6,
+      "name": "Cabbage",
+      "Category": "vegetables",
+      "calorie": "",
+      "carbhodyrate": "",
+      "protein": "",
+      "safetyScore": "",
+      "image": ""
+    },
+    {
+      "id": 7,
+      "name": "Wallnut",
+      "Category": "Fruit",
+      "calorie": "",
+      "carbhodyrate": "",
+      "protein": "",
+      "safetyScore": "",
+      "image": ""
+    },
+    {
+      "id": 8,
+      "name": "Eggs",
+      "Category": "vegetables",
+      "calorie": "",
+      "carbhodyrate": "",
+      "protein": "",
+      "safetyScore": "",
+      "image": ""
+    }
+  ]
+}
