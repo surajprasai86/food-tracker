@@ -3,7 +3,7 @@ import FoodCard from "./FoodCard";
 
 function FoodList({ pageNumber, foodData }) {
   const [foodName, setFoodName] = useState("");
-  console.log(foodData.foodList);
+  // console.log(foodData.foodList);
   return (
     <div>
       <div className="jumbotron bg-white ">

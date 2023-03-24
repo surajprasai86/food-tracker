@@ -7,11 +7,11 @@ import foodData from "../../../data/data.json";
 function foodByCategories() {
   const route = useRouter();
   const foodCategory = route.query.id;
-  console.log("cat", foodCategory, typeof foodCategory);
+  // console.log("cat", foodCategory, typeof foodCategory);
   const foodByCategories = foodData.foodList.filter(
     (food) => food.Category.toLowerCase() === foodCategory
   );
-  console.log("food cat", foodByCategories);
+  // console.log("food cat", foodByCategories);
   return (
     <div>
       <Header />

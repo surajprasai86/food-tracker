@@ -25,7 +25,7 @@ function TableComponent() {
         {Object.keys(users.meals).map((mealId, index) => {
           const meal = users.meals[mealId];
           if (meal.userId === userId) {
-            console.log("main", meal);
+            // console.log("main", meal);
             return (
               <tr key={mealId}>
                 <td>{meal["name"]}</td>

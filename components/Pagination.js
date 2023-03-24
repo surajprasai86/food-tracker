@@ -5,8 +5,8 @@ function Pagination({ setPageNumber, pageNumber }) {
   };
 
   return (
-    <nav aria-label="Page navigation example">
-      <ul className="pagination justify-content-center">
+    <nav className="m-4" size="lg" aria-label="Page navigation example">
+      <ul className="pagination justify-content-center  pagination-lg">
         <li className="page-item disabled">
           <a className="page-link" href="#" tabindex="-1">
             Previous

@@ -9,13 +9,13 @@ import {auth} from "../auth/firebase"
 import { GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import FirebaseSignIn from "./FirebaseSignIn";
 
 function Header() {  
   const [loading, setLoading] = useState(false);
   const googleProvider = new GoogleAuthProvider()
   const [user, setUser] = useAuthState(auth)
-  console.log(user
-    );
+  // console.log(user    );
 
 
   const singInWithGoogle = async(e) => {
@@ -23,7 +23,7 @@ function Header() {
     setLoading(true)
     try {
       const res = await  signInWithPopup(auth, googleProvider)
-      console.log(res);
+      // console.log(res);
     } catch (error) {
       console.log("while trying to login", error);
     }
@@ -31,7 +31,7 @@ function Header() {
 
   return (
     <header>
-      <Navbar bg="light" expand="lg">
+      <Navbar  bg="light" expand="lg">
         <Container>
           <Navbar.Brand href="#home">
             <Image src="/food-.svg" width={100} height={100} alt="" />
@@ -54,9 +54,7 @@ function Header() {
               <Nav.Link href="/add-food/AddFood"> Add Food Item </Nav.Link>
               <Nav.Link href="/add-food/AddFood"> Food Log</Nav.Link>
             </Nav>
-           {!user ? <Button loading  onClick={singInWithGoogle} variant="secondary" size="lg"  disabled={loading}>
-              {0 ? "Loading..." : "Sign up with Google"}
-            </Button> :  <Image className="avatar" src={user.photoURL} width={250} height={250} alt="" />}
+           <FirebaseSignIn />
           </Navbar.Collapse>
         </Container>
       </Navbar>

@@ -22,7 +22,7 @@ function NutritionBreakdownChart() {
     });
     return accmulator;
   }, {});
-  console.log("gross", totalNutirentBreakDown);
+  // console.log("gross", totalNutirentBreakDown);
 
   const userMealdata = {
     labels: nutritionNames,

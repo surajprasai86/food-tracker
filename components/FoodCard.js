@@ -8,9 +8,9 @@ import Card from "react-bootstrap/Card";
 import { DataContext } from "./DataContext";
 
 function FoodCard({pageNumber}) {
-  console.log("pn", pageNumber);
+  // console.log("pn", pageNumber);
   const data = useContext(DataContext).foodData.foodList
-  console.log("dta is ", data);
+  // console.log("dta is ", data);
   const noOfCardsWantedInPage = 6
   return (
     <Container>

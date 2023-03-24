@@ -16,7 +16,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
 
   const [pageNumber, setPageNumber] = useState(1)
-  console.log("page no", pageNumber);
+  // console.log("page no", pageNumber);
   // usets
   
   return (
