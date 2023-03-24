@@ -33,7 +33,6 @@ export default function Home() {
           <FoodList pageNumber={pageNumber} foodData={foodData} />
           <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} />
         </div>
-        hello world!
         {/* <Auth /> */}
       </main>
     </>

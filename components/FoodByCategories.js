@@ -5,7 +5,6 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
 function FoodByCategories({ foodByCategories }) {
-  const items = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <Container>
       <Row>
