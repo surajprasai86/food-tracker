@@ -25,21 +25,7 @@ function FirebaseSignIn() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
 
   useEffect(() => {
-    const checkIfUserDetailsSet = async () => {
-      const docRef = doc(db, "users", "SF");
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    };
-
-    if (user) {
-      console.log("the user is", user);
-    }
+ 
 
     return () => {};
   }, [user, userLoggedIn]);
@@ -56,7 +42,7 @@ function FirebaseSignIn() {
     }
   };
   return (
-    <>
+    <div>
       {!user ? (
         <Button
           loading
@@ -77,8 +63,10 @@ function FirebaseSignIn() {
         />
       )}
       {/* if this is first time user logging in, ask details */}
-      {userFirstTimeLogin && userLoggedIn && <UserFirstTImeLoginForm />}
-    </>
+      {/* {userFirstTimeLogin && userLoggedIn && <UserFirstTImeLoginForm />} */}
+       <UserFirstTImeLoginForm />
+
+    </div>
   );
 }
 
