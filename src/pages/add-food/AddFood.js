@@ -9,6 +9,7 @@ import { DataContext } from "../../../components/DataContext";
 import Modal from "react-bootstrap/Modal";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import TableComponent from "components/TableComponent";
+import NutritionBreakdownChart from "components/NutritionBreakdownChart";
 
 function AddFood() {
   // filtering food & nutrition name
@@ -150,20 +151,33 @@ function AddFood() {
               className="modal show"
               style={{ display: "block", position: "initial" }}
             >
-              <Modal.Dialog  className="" >
+              <Modal.Dialog className="">
                 <Modal.Header closeButton>
                   <Modal.Title>Food Consumed Today</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                  <p>{new Date().toISOString().slice(0,10)}</p>
+                  <p>{new Date().toISOString().slice(0, 10)}</p>
                   <TableComponent />
                 </Modal.Body>
-
-
               </Modal.Dialog>
             </div>
-          
+          </Col>
+          <Col sm={6}>
+            <div
+              className="modal show"
+              style={{ display: "block", position: "initial" }}
+            >
+              <Modal.Dialog className="">
+                <Modal.Header closeButton>
+                  <Modal.Title>Nutrition Breakdown</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                  <NutritionBreakdownChart />
+                </Modal.Body>
+              </Modal.Dialog>
+            </div>
           </Col>
         </Row>
       </Container>

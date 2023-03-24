@@ -3,12 +3,13 @@ import Table from "react-bootstrap/Table";
 import { DataContext } from "../components/DataContext";
 
 function TableComponent() {
+  // for second user from json file
   const userId = "user_id_2";
   const data = useContext(DataContext);
   const nutritionNames = data.foodData.nutritionNames;
   const { nutritioNames } = useContext(DataContext);
   const users = data.userFoodConsumptionDetails;
-  console.log("conttex", users, nutritionNames);
+  // console.log("conttex", users, nutritionNames);
   return (
     <Table striped bordered hover variant="dark">
       <thead>
