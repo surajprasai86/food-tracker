@@ -89,8 +89,8 @@ function AddFood() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            {foodNames.map((foodName) => (
-                              <Dropdown.Item eventKey={`${foodName}`}>
+                            {foodNames.map((foodName, index) => (
+                              <Dropdown.Item key={index} eventKey={`${foodName}`}>
                                 {foodName}
                               </Dropdown.Item>
                             ))}
@@ -145,8 +145,8 @@ function AddFood() {
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
-                        {nutritionNames.map((nutritionObject) => (
-                          <Dropdown.Item eventKey={`${nutritionObject.name}`}>
+                        {nutritionNames.map((nutritionObject, index) => (
+                          <Dropdown.Item key={index} eventKey={`${nutritionObject.name}`}>
                             {nutritionObject.name}
                           </Dropdown.Item>
                         ))}

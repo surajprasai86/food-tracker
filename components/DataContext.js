@@ -29,7 +29,7 @@ export const DataProvider = ({ children }) => {
     return () => {
       // authListener();
     };
-  }, []);
+  }, [user]);
 
   return (
     <DataContext.Provider value={{ foodData, authState, setAuthState, userFoodConsumptionDetails, nutrientsPerFood,  user }}>

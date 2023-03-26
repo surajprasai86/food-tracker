@@ -1,3 +1,4 @@
+import { collection, getDoc, query, where } from "firebase/firestore";
 import { useContext } from "react";
 import Table from "react-bootstrap/Table";
 import { DataContext } from "../components/DataContext";
@@ -9,12 +10,27 @@ function TableComponent() {
   const nutritionNames = data.foodData.nutritionNames;
   const { nutritioNames } = useContext(DataContext);
   const users = data.userFoodConsumptionDetails;
-  // console.log("conttex", users, nutritionNames);
+  const user = data?.user?.uid
+
+  // useEffect(() => {
+    
+
+  
+  //   return () => {
+      
+  //   }
+  // }, [])
+
+  // const getMealsData = async() => {
+  //   const q = query(collection(db,"meals"), where("user_uid" === user.uid))  
+  // }
+  
+
   return (
     <Table striped bordered hover variant="dark">
       <thead>
         <tr>
-          <th>Name</th>
+          <th key={"Name"} >Name</th>
           {nutritionNames.map((nutrition, index) => (
             <th key={index}>{nutrition.name}</th>
           ))}
@@ -36,14 +52,6 @@ function TableComponent() {
               </tr>
             );
           }
-          // return (
-          //   <tr key={userId}>
-          //     <td>{index + 1}</td>
-          //     {/* {nutritionNames.map((nutrition, index) => (
-          //       <td key={index}>{dailyNutrientGoals[nutrition.key]}</td>
-          //     ))} */}
-          //   </tr>
-          // );
         })}
       </tbody>
     </Table>

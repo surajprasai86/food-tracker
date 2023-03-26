@@ -41,8 +41,8 @@ function Header() {
             <Nav className="me-auto">
               <Nav.Link href="/">Food List</Nav.Link>
               <NavDropdown title="Food Categories" id="basic-nav-dropdown">
-                {foodData.foodCategories.map((category) => (
-                  <NavDropdown.Item href={`/food-by-categories/${String(category).toLocaleLowerCase()}`}>
+                {foodData.foodCategories.map((category, index) => (
+                  <NavDropdown.Item key={index} href={`/food-by-categories/${String(category).toLocaleLowerCase()}`}>
                     {category}
                   </NavDropdown.Item>
                 ))}
