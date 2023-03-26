@@ -4,7 +4,7 @@ import Header from "components/Header";
 import { useRouter } from "next/router";
 import foodData from "../../../data/data.json";
 
-function foodByCategories() {
+function FoodByCategoriesId() {
   const route = useRouter();
   const foodCategory = route.query.id;
   // console.log("cat", foodCategory, typeof foodCategory);
@@ -27,4 +27,4 @@ function foodByCategories() {
   );
 }
 
-export default foodByCategories;
+export default FoodByCategoriesId;

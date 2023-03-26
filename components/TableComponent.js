@@ -46,7 +46,7 @@ function TableComponent() {
               <tr key={mealId}>
                 <td>{meal["name"]}</td>
                 {nutritionNames.map((nutrition, index) => (
-                  <td>{meal[nutrition.name]}</td>
+                  <td key={"nutrition.name"} >{meal[nutrition.name]}</td>
                 ))}
                 <td>{meal["time"].slice(0,5)}</td>
               </tr>
