@@ -9,6 +9,7 @@
       "weight": 80,
       "height": 180,
       "daily_calorie_goal": 2000,
+      "details_set" : true,
       "daily_nutrient_goals": {
         "calories": 2000,
         "protein": 50,
@@ -27,6 +28,7 @@
       "weight": 65,
       "height": 165,
       "daily_calorie_goal": 1800,
+      "details_set" : true,
       "daily_nutrient_goals": {
         "calories": 1800,
         "protein": 45,

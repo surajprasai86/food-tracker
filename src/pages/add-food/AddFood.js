@@ -10,15 +10,22 @@ import Modal from "react-bootstrap/Modal";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import TableComponent from "components/TableComponent";
 import NutritionBreakdownChart from "components/NutritionBreakdownChart";
+import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { db } from "auth/firebase";
 
 function AddFood() {
   // filtering food & nutrition name
-  const data = useContext(DataContext).foodData;
+  const dataContext = useContext(DataContext);
+  const data = dataContext.foodData;
   const foodNames = data.foodList.map((food) => food.name);
   const nutritionNames = data.nutritionNames;
+  const user = dataContext.user;
+  const nutrionalValuesPer100gm = dataContext.nutrientsPerFood
+  // const user = useContext(DataContext;
+  console.log("datx onct", dataContext);
   //
   const [amount, setAmount] = useState("0");
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedMeal, setSelectedMeal] = useState("");
   const [nutritionName, setNutritionName] = useState("calories");
   // console.log(nutritionName);
 
@@ -26,9 +33,26 @@ function AddFood() {
   //   setSelectedOption(eventKey);
   // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    if (!user) {
+      return  alert("No user logged in")
+    }
     e.preventDefault();
-    // console.log("res", amount, selectedOption);
+    console.log("Add meal/food to db: ", selectedMeal, amount);
+
+    const data = {
+      selectedMeal : selectedMeal,
+      amount: amount,
+      user_uid : user.uid,
+      nutrition : nutrionalValuesPer100gm.foods.filter(foodCompostion => String(foodCompostion.name).toLowerCase() === String(selectedMeal).toLowerCase() ),
+      date: serverTimestamp()
+    }
+    try {
+      await addDoc(collection(db, "meals"), {data});
+      console.log("Meal sent to DB");
+    } catch (error) {
+      console.log("error while sending meal info of user to meals", error);
+    }
   };
 
   return (
@@ -48,10 +72,10 @@ function AddFood() {
 
                 <Modal.Body>
                   <div className="">
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={user && handleSubmit}>
                       <Form.Group controlId="food">
                         <Form.Label>Add Food</Form.Label>
-                        <Dropdown onSelect={(e) => setSelectedOption(e)}>
+                        <Dropdown onSelect={(e) => setSelectedMeal(e)}>
                           <Dropdown.Toggle
                             size="lg"
                             variant="secondary"
@@ -59,8 +83,8 @@ function AddFood() {
                             className="mb-2"
                             style={{ minWidth: "220px" }}
                           >
-                            {selectedOption
-                              ? selectedOption
+                            {selectedMeal
+                              ? selectedMeal
                               : "Select A Food Item"}
                           </Dropdown.Toggle>
 

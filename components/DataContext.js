@@ -4,6 +4,7 @@ import {auth} from "../auth/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import foodData from "../data/data.json";
 import userFoodConsumptionDetails from "../data/userFoodConsumptionDetails.json"
+import nutrientsPerFood from "../data/nutrientsPerFood.json"
 
 export const DataContext = createContext();
 
@@ -31,7 +32,7 @@ export const DataProvider = ({ children }) => {
   }, []);
 
   return (
-    <DataContext.Provider value={{ foodData, authState, setAuthState, userFoodConsumptionDetails }}>
+    <DataContext.Provider value={{ foodData, authState, setAuthState, userFoodConsumptionDetails, nutrientsPerFood,  user }}>
       {children}
     </DataContext.Provider>
   );

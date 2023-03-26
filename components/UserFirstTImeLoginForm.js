@@ -3,7 +3,16 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "firebase/app";
 import { auth, db } from "../auth/firebase";
 import { Modal, Form, Button } from "react-bootstrap";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  setDoc,
+  doc,
+  getDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const UserFirstTImeLoginForm = () => {
   const [user] = useAuthState(auth);
@@ -16,7 +25,6 @@ const UserFirstTImeLoginForm = () => {
   const [birthdate, setBirthdate] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
-  const [dailyCalorieGoal, setDailyCalorieGoal] = useState("");
   const [dailyNutrientGoals, setDailyNutrientGoals] = useState({
     calories: "",
     protein: "",
@@ -27,26 +35,49 @@ const UserFirstTImeLoginForm = () => {
   });
 
   useEffect(() => {
-    setShowModal(true);
-    const checkIfUserDetailsSet = async () => {
-      const q = query(collection(db, "users"));
-
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-      });
-    };
-    checkIfUserDetailsSet()
+    user && checkIfUserDetailsSet();
 
     if (user) {
       console.log("the user is", user);
     }
   }, [user]);
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log("form submitted ");
+
+    const data = {
+      email: user.email,
+      password: null,
+      gender: gender,
+      birthdate: birthdate,
+      weight: weight,
+      height: height,
+      details_set: true,
+      daily_nutrient_goals: dailyNutrientGoals,
+      date: serverTimestamp()
+    };
+
+    try {
+      const ref = await setDoc(doc(db, "users", user.uid), data, {merge: true});
+      console.log("user record added", ref);
+    } catch (error) {
+      console.log("error while sending user first registration data", error);
+    }
+    setShowModal(false);
+  };
+
+  const checkIfUserDetailsSet = async () => {
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists() && docSnap.data().details_set) {
+      setShowModal(false);
+    } else {
+      // doc.data() will be undefined in this case
+      setShowModal(true);
+      // console.log("No such document!");
+    }
   };
 
   return (
@@ -130,7 +161,7 @@ const UserFirstTImeLoginForm = () => {
                   onChange={(event) => setHeight(event.target.value)}
                 />
               </Form.Group>
-              <Form.Group>
+              {/* <Form.Group>
                 <Form.Label>Daily calorie goal</Form.Label>
                 <Form.Control
                   type="number"
@@ -138,12 +169,12 @@ const UserFirstTImeLoginForm = () => {
                   value={dailyCalorieGoal}
                   onChange={(event) => setDailyCalorieGoal(event.target.value)}
                 />
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group>
                 <Form.Label>Other Daily nutrient goals</Form.Label>
                 {Object.entries(dailyNutrientGoals).map(([key, value]) => (
                   <Form.Control
-                  className="mt-2"
+                    className="mt-2"
                     key={key}
                     type="number"
                     placeholder={`Enter your daily ${key} goal`}
@@ -157,7 +188,9 @@ const UserFirstTImeLoginForm = () => {
                   />
                 ))}
               </Form.Group>
-              <Button  className="mt-2" type="submit">Save</Button>
+              <Button className="mt-2" type="submit">
+                Save
+              </Button>
             </Form>
           </Modal.Body>
         </Modal>
