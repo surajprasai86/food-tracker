@@ -2,9 +2,14 @@ import { collection, getDoc, query, where } from "firebase/firestore";
 import { useContext } from "react";
 import Table from "react-bootstrap/Table";
 import { DataContext } from "../components/DataContext";
+import SpinnerComponent from "./Spinner";
 
 function TableComponent({mealData}) {
 
+
+  if (!mealData) {
+    return <SpinnerComponent />
+  }
 
   // for second user from json file
   const data = useContext(DataContext);

@@ -39,7 +39,9 @@ function AddFood() {
   const [nutritionName, setNutritionName] = useState("calories");
   const [userMealData, setUserMealData] = useState(null);
   const [userData, setUserData] = useState(null);
-  // console.log("user is", user);
+  const [randomValue, setRandomValue] = useState();
+
+  // console.log("user is", userData);
 
   // food consumed today:
   const foodConsumedToday = async () => {
@@ -48,9 +50,9 @@ function AddFood() {
 
       const querySnapshot = await getDocs(q);
       const docData = querySnapshot.docs.map((doc) => doc.data());
-      const data = docData.filter(meal => meal.data.user_uid === user.uid)
+      const data = docData.filter((meal) => meal.data.user_uid === user.uid);
       setUserMealData(data);
-      console.log("query snpashot", data);
+      // console.log("query snpashot", data);
     }
   };
 
@@ -62,7 +64,7 @@ function AddFood() {
         if (doc.id === user.uid) return doc.data();
       });
       // console.log("query snpashot", data);
-      setUserData(data);
+      setUserData(data[1]);
     } else {
       console.log("Cant fetch user");
     }
@@ -94,11 +96,22 @@ function AddFood() {
     }
   };
 
+  const rand = Math.floor(Math.random() * 100);
   useEffect(() => {
     foodConsumedToday();
     userDataFetch();
     return () => {};
   }, [user]);
+
+  useEffect(() => {
+    setRandomValue(Math.floor(Math.random() * 100));
+    
+  
+    return () => {
+      
+    }
+  }, [nutritionName])
+  
 
   return (
     <div>
@@ -181,7 +194,7 @@ function AddFood() {
               <Modal.Dialog>
                 <Modal.Header closeButton>
                   <Modal.Title className="d-flex">
-                    Daily{" "}
+                    Daily
                     <Dropdown onSelect={(e) => setNutritionName(e)}>
                       <Dropdown.Toggle
                         variant="secondary"
@@ -204,17 +217,23 @@ function AddFood() {
                       </Dropdown.Menu>
                     </Dropdown>
                     Goal-{" "}
-                    {
-                      nutritionNames.filter(
-                        (nutrition) => nutrition.name === nutritionName
-                      )[0].healthyAmountRDA
-                    }
+                    {userData ? (
+                      userData.daily_nutrient_goals?.[nutritionName]
+                    ) : (
+                      <></>
+                    )}
                   </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                   <p>Your progress goes here.</p>
-                  <ProgressBar animated now={45} label={`${45}%`} />
+                  {randomValue && (
+                    <ProgressBar
+                      animated
+                      now={randomValue}
+                      label={randomValue}
+                    />
+                  )}
                 </Modal.Body>
               </Modal.Dialog>
             </div>
@@ -251,7 +270,7 @@ function AddFood() {
                 </Modal.Header>
 
                 <Modal.Body>
-                  <NutritionBreakdownChart />
+                  <NutritionBreakdownChart userMealData={userMealData} />
                 </Modal.Body>
               </Modal.Dialog>
             </div>

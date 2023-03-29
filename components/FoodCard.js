@@ -26,8 +26,7 @@ function FoodCard({pageNumber}) {
                   <Card.Title>{food.name}</Card.Title>
                   {console.log(food.name)}
                   <Card.Text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the cards content.
+                   {food.advantages ? food.advantages.slice(0,140) : "Some quick example text to build on the card title and make up the bulk of the cards content."}
                   </Card.Text>
                   <Button variant="primary">View Details</Button>
                 </Card.Body>

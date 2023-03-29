@@ -36,7 +36,7 @@ const UserFirstTImeLoginForm = () => {
   useEffect(() => {
     if (user) {
       checkIfUserDetailsSet()
-      console.log("the user is", user);
+      // console.log("the user is", user);
     }
   }, [user]);
 

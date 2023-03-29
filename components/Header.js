@@ -31,7 +31,7 @@ function Header() {
     <header>
       <Navbar  bg="light" expand="lg">
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
             <Image src="/food-.svg" width={100} height={100} alt="" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -49,8 +49,8 @@ function Header() {
                   Add Manual Categories
                 </NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link href="/add-food/AddFood"> Add Food Item </Nav.Link>
-              <Nav.Link href="/add-food/AddFood"> Food Log</Nav.Link>
+              <Nav.Link href="/add-food"> Add Food Item </Nav.Link>
+              <Nav.Link href="/food-log"> Food Log</Nav.Link>
             </Nav>
            <FirebaseSignIn />
           </Navbar.Collapse>

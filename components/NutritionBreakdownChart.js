@@ -2,27 +2,36 @@ import { Pie, Doughnut } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { useContext } from "react";
 import { DataContext } from "../components/DataContext";
+import SpinnerComponent from "../components/Spinner"
 
-function NutritionBreakdownChart() {
+function NutritionBreakdownChart({userMealData}) {
   const data = useContext(DataContext);
+
+  if (!userMealData) {
+    return <><SpinnerComponent /> </>
+  }
   //  user for demo
   const userId = "user_id_2";
   const nutritionNames = data.foodData.nutritionNames.map(
     (nutritionName) => nutritionName.name
-  );
-  const users = data.userFoodConsumptionDetails;
-  const userMeals = Object.keys(users.meals)
+    );
+    const users = data.userFoodConsumptionDetails;
+    const userMeals = Object.keys(users.meals)
     .filter((meal) => users.meals[meal].userId == userId)
     .map((mealId) => users.meals[mealId]);
+    // console.log("usermeal data", userMeals, userMealData);
 
   // aggregating user meal nutritents breakdonw
-  const totalNutirentBreakDown = userMeals.reduce((accmulator, meal) => {
+  
+  const totalNutirentBreakDown = userMealData?.reduce((accmulator, meal) => {
     nutritionNames.forEach((nutrient) => {
-      accmulator[nutrient] = (accmulator[nutrient] | 0) + meal[nutrient];
+      console.log("test",meal.data.nutrition[0][nutrient]);
+      accmulator[nutrient] = (accmulator[nutrient] | 0) + meal.data.nutrition[0][nutrient];
     });
     return accmulator;
   }, {});
-  // console.log("gross", totalNutirentBreakDown);
+
+  console.log("gross", totalNutirentBreakDown);
 
   const userMealdata = {
     labels: nutritionNames,

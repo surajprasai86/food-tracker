@@ -112,3 +112,7 @@ a {
   height: 5rem;
   border-radius: 50%;
 }
+
+.btn-close{
+  display: none;
+}
