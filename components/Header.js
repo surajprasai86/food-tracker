@@ -15,8 +15,6 @@ function Header() {
   const [loading, setLoading] = useState(false);
   const googleProvider = new GoogleAuthProvider()
   const [user, setUser] = useAuthState(auth)
-  // console.log(user    );
-
 
   const singInWithGoogle = async(e) => {
     e.preventDefault()

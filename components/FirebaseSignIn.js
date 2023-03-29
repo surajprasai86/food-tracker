@@ -14,7 +14,7 @@ import {
   signInWithRedirect,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import UserFirstTImeLoginForm from "./UserFirstTImeLoginForm";
 
 function FirebaseSignIn() {
@@ -25,8 +25,6 @@ function FirebaseSignIn() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
 
   useEffect(() => {
- 
-
     return () => {};
   }, [user, userLoggedIn]);
 
@@ -41,6 +39,12 @@ function FirebaseSignIn() {
       console.log("while trying to login", error);
     }
   };
+
+  const signOut = () => {
+    auth.signOut().then(data => console.log("User singedout", data))
+    .catch(error => console.log("Error while siging out user", error))
+  }
+
   return (
     <div>
       {!user ? (
@@ -54,18 +58,21 @@ function FirebaseSignIn() {
           {0 ? "Loading..." : "Sign up with Google"}
         </Button>
       ) : (
-        <Image
-          className="avatar"
-          src={user.photoURL}
-          width={250}
-          height={250}
-          alt=""
-        />
+        <div style={{display:"flex", flexDirection:"column", alignItems:"center"}} >
+          <Image
+            className="avatar"
+            src={user.photoURL}
+            width={250}
+            height={250}
+            alt=""
+          />
+           <a onClick={signOut} href="#">Logout
+        </a>
+        </div>
       )}
       {/* if this is first time user logging in, ask details */}
       {/* {userFirstTimeLogin && userLoggedIn && <UserFirstTImeLoginForm />} */}
-       <UserFirstTImeLoginForm />
-
+      <UserFirstTImeLoginForm />
     </div>
   );
 }

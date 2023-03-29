@@ -16,28 +16,26 @@ import {
 
 const UserFirstTImeLoginForm = () => {
   const [user] = useAuthState(auth);
-  const [detailsSet, setDetailsSet] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
   const [birthdate, setBirthdate] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("65");
+  const [height, setHeight] = useState("176");
   const [dailyNutrientGoals, setDailyNutrientGoals] = useState({
-    calories: "",
-    protein: "",
-    carbs: "",
-    fat: "",
-    fiber: "",
-    sugar: "",
+    calories: "2000",
+    protein: "50",
+    carbs: "130",
+    fat: "60",
+    fiber: "25",
+    sugar: "25",
   });
 
   useEffect(() => {
-    user && checkIfUserDetailsSet();
-
     if (user) {
+      checkIfUserDetailsSet()
       console.log("the user is", user);
     }
   }, [user]);
@@ -64,7 +62,7 @@ const UserFirstTImeLoginForm = () => {
     } catch (error) {
       console.log("error while sending user first registration data", error);
     }
-    setShowModal(false);
+    setShowModal(true);
   };
 
   const checkIfUserDetailsSet = async () => {
@@ -72,18 +70,24 @@ const UserFirstTImeLoginForm = () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists() && docSnap.data().details_set) {
-      setShowModal(false);
+      setShowModal(true);
+      // console.log("Details set", docSnap.data());
+
     } else {
       // doc.data() will be undefined in this case
-      setShowModal(true);
+      // console.log("Details not set", docSnap.data());
+
+      setShowModal(false);
       // console.log("No such document!");
     }
   };
 
+
+
   return (
     <div>
       {/* Modal for setting user details */}
-      {showModal && (
+      {!showModal && (
         <Modal
           backdrop="static"
           keyboard={false}

@@ -3,57 +3,43 @@ import { useContext } from "react";
 import Table from "react-bootstrap/Table";
 import { DataContext } from "../components/DataContext";
 
-function TableComponent() {
+function TableComponent({mealData}) {
+
+
   // for second user from json file
-  const userId = "user_id_2";
   const data = useContext(DataContext);
   const nutritionNames = data.foodData.nutritionNames;
   const { nutritioNames } = useContext(DataContext);
   const users = data.userFoodConsumptionDetails;
   const user = data?.user?.uid
 
-  // useEffect(() => {
-    
-
-  
-  //   return () => {
-      
-  //   }
-  // }, [])
-
-  // const getMealsData = async() => {
-  //   const q = query(collection(db,"meals"), where("user_uid" === user.uid))  
-  // }
-  
 
   return (
     <Table striped bordered hover variant="dark">
       <thead>
         <tr>
           <th key={"Name"} >Name</th>
+          <th>Amount</th>
           {nutritionNames.map((nutrition, index) => (
             <th key={index}>{nutrition.name}</th>
           ))}
-          <th>Time</th>
         </tr>
       </thead>
-      <tbody>
-        {Object.keys(users.meals).map((mealId, index) => {
-          const meal = users.meals[mealId];
-          if (meal.userId === userId) {
-            // console.log("main", meal);
+  { mealData && user &&   <tbody>
+        {mealData.map((meal, index) => {
+          meal = meal.data
             return (
-              <tr key={mealId}>
-                <td>{meal["name"]}</td>
+              <tr key={index}>
+                <td>{meal.selectedMeal}</td>
+                <td>{meal.amount}</td>
                 {nutritionNames.map((nutrition, index) => (
-                  <td key={"nutrition.name"} >{meal[nutrition.name]}</td>
+                  <td key={index} >{meal.nutrition[0][nutrition.name]}</td>
                 ))}
-                <td>{meal["time"].slice(0,5)}</td>
+                {/* <td>{ new Date(meal.date.seconds * 1000 + meal.date.nanoseconds / 1000000).toLocaleDateString()}</td> */}
               </tr>
             );
-          }
         })}
-      </tbody>
+      </tbody>}
     </Table>
   );
 }
