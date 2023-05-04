@@ -244,6 +244,17 @@
       "safetyScore": "A",
       "image": "https://images.unsplash.com/photo-1513161455610-fbb130471ebb",
       "advantages": "Black beans are a good source of complex carbohydrates, fiber, and protein. They can help regulate blood sugar levels, reduce inflammation, and support healthy digestion. Black beans are also rich in antioxidants, which can help protect against chronic diseases like cancer and heart disease."
+    },
+    {
+      "id": 21,
+      "name": "Hummus",
+      "Category": "vegetable",
+      "calorie": "200",
+      "carbhodyrate": "50g",
+      "protein": "15g",
+      "safetyScore": "A",
+      "image": "https://images.unsplash.com/photo-1513161455610-fbb130471ebb",
+      "advantages": "Black beans are a good source of complex carbohydrates, fiber, and protein. They can help regulate blood sugar levels, reduce inflammation, and support healthy digestion. Black beans are also rich in antioxidants, which can help protect against chronic diseases like cancer and heart disease."
     }
   ]
 }

@@ -180,7 +180,16 @@
         "fat": 4,
         "fiber": 5,
         "sugar": 1
-        }
+        },
+        {
+          "name": "Hummus",
+          "calories": 222,
+          "protein": 8,
+          "carbs": 39,
+          "fat": 4,
+          "fiber": 5,
+          "sugar": 1
+          }
     ]
 }
        
