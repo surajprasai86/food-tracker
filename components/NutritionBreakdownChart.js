@@ -25,13 +25,13 @@ function NutritionBreakdownChart({userMealData}) {
   
   const totalNutirentBreakDown = userMealData?.reduce((accmulator, meal) => {
     nutritionNames.forEach((nutrient) => {
-      console.log("test",meal.data.nutrition[0][nutrient]);
+      // console.log("test",meal.data.nutrition[0][nutrient]);
       accmulator[nutrient] = (accmulator[nutrient] | 0) + meal.data.nutrition[0][nutrient];
     });
     return accmulator;
   }, {});
 
-  console.log("gross", totalNutirentBreakDown);
+  // console.log("gross", totalNutirentBreakDown);
 
   const userMealdata = {
     labels: nutritionNames,

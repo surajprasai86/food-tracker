@@ -22,6 +22,7 @@ import {
 } from "firebase/firestore";
 import { db } from "auth/firebase";
 import { useEffect } from "react";
+import SpinnerComponent from "components/Spinner";
 
 function AddFood() {
   // filtering food & nutrition name
@@ -40,6 +41,7 @@ function AddFood() {
   const [userMealData, setUserMealData] = useState(null);
   const [userData, setUserData] = useState(null);
   const [randomValue, setRandomValue] = useState();
+  const [sendingFoodForm, setSendingFoodForm] = useState(false)
 
   // console.log("user is", userData);
 
@@ -71,21 +73,43 @@ function AddFood() {
   };
 
   const handleSubmit = async (e) => {
-    if (!user) {
+    
+    if (!user | !selectedMeal | !amount) {
       return alert("No user logged in");
     }
+    setSendingFoodForm(true)
     e.preventDefault();
     console.log("Add meal/food to db: ", selectedMeal, amount);
+
+    const foodArray= nutrionalValuesPer100gm.foods.filter(
+      (foodCompostion) =>
+        String(foodCompostion.name).toLowerCase() ===
+        String(selectedMeal).toLowerCase()
+    )
+
+    const multipliedFoodArray = foodArray.map((food) => {
+      const newFood = {};
+    
+      for (const key in food) {
+        if (food.hasOwnProperty(key)) {
+          if (typeof food[key] === "number") {
+            newFood[key] = food[key] * amount;
+          } else {
+            newFood[key] = food[key];
+          }
+        }
+      }
+    
+      return newFood;
+    });
+    
+    console.log(multipliedFoodArray);
 
     const data = {
       selectedMeal: selectedMeal,
       amount: amount,
       user_uid: user.uid,
-      nutrition: nutrionalValuesPer100gm.foods.filter(
-        (foodCompostion) =>
-          String(foodCompostion.name).toLowerCase() ===
-          String(selectedMeal).toLowerCase()
-      ),
+      nutrition: multipliedFoodArray,
       date: serverTimestamp(),
     };
     try {
@@ -94,6 +118,10 @@ function AddFood() {
     } catch (error) {
       console.log("error while sending meal info of user to meals", error);
     }
+    setSendingFoodForm(false)
+    setAmount(0)
+    setSelectedMeal("Select a Meal")
+    foodConsumedToday()
   };
 
   const rand = Math.floor(Math.random() * 100);
@@ -171,14 +199,15 @@ function AddFood() {
                         />
                       </Form.Group>
 
-                      <Button
+                   {!sendingFoodForm ? <Button
                         className="mt-4"
                         variant="secondary"
                         type="submit"
                         size="lg"
+                        disabled={!amount | ! selectedMeal}
                       >
                         Submit
-                      </Button>
+                      </Button>: <SpinnerComponent /> }
                     </Form>
                   </div>
                 </Modal.Body>
@@ -270,7 +299,7 @@ function AddFood() {
                 </Modal.Header>
 
                 <Modal.Body>
-                  <NutritionBreakdownChart userMealData={userMealData} />
+                {userMealData&&  <NutritionBreakdownChart userMealData={userMealData} />}
                 </Modal.Body>
               </Modal.Dialog>
             </div>
