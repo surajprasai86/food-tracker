@@ -339,11 +339,11 @@ function AddFood() {
                         <tbody>
                           
                             {today && nutritionNames.map((nut, index) =>
-                            <tr> 
-                              <td>{nut.name}</td>
-                              <td>{userData.daily_nutrient_goals[nut.name]}</td>
-                             <td>{(total[index])?.toFixed(0)}</td>
-                             <td>{Number(userData.daily_nutrient_goals[nut.name]) < Number(total[index]?.toFixed(0)  )
+                            <tr key={index} > 
+                              <td key={nut.name} >{nut.name}</td>
+                              <td key={userData.daily_nutrient_goals[nut.name]}>{userData.daily_nutrient_goals[nut.name]}</td>
+                             <td key={total[index]}>{(total[index])?.toFixed(0)}</td>
+                             <td key={userData.daily_nutrient_goals[nut.name]}>{Number(userData.daily_nutrient_goals[nut.name]) < Number(total[index]?.toFixed(0)  )
                              ? `Your daily goals is exceeded by ${Math.abs(userData.daily_nutrient_goals[nut.name] - total[index]?.toFixed(0)) }.` : "You need to eat more." }</td>
                             </tr>
                               )}
