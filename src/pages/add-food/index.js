@@ -1,29 +1,90 @@
 import Header from "components/Header";
 import { useState } from "react";
 import { Form, Button, Container, Row, Modal } from "react-bootstrap";
+import { storage, db } from "auth/firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import SpinnerComponent from "components/Spinner";
 
 const FoodForm = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
-  const [calories, setCalories] = useState("");
-  const [protein, setProtein] = useState("");
-  const [carbs, setCarbs] = useState("");
-  const [fat, setFat] = useState("");
-  const [fiber, setFiber] = useState("");
-  const [sugar, setSugar] = useState("");
+  const [calories, setCalories] = useState(2000);
+  const [protein, setProtein] = useState(50);
+  const [carbs, setCarbs] = useState(130);
+  const [fat, setFat] = useState(60);
+  const [fiber, setFiber] = useState(25);
+  const [sugar, setSugar] = useState(25);
+  const [url, setUrl] = useState("")
+  const [fileType, setFileType] = useState("")
+  const [imageShow, setImageShow] = useState("")
+  const [startUploading, setStartUploading] = useState(false)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Code to submit the form data goes here
-    // You could use fetch or Axios to send the data to your backend server
+    // setStartUploading(true)
+    // Make sure all fields are filled
+    if (!name || !image || !calories || !protein || !carbs || !fat || !fiber || !sugar) {
+      // Handle error when form is not completely filled
+      console.log("Missing fields");
+      return;
+    }
+  
+    // Create a reference in Firebase storage
+    const storageRef = ref(storage, `images/${name}`);
+    
+    // Upload the image
+    const uploadTask = uploadBytesResumable(storageRef, image, {contentType: fileType});
+  
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Optional: You can add code here to track upload progress
+    setStartUploading(true)
+
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+        console.log(error);
+      },
+      () => {
+        // When the upload completes, get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          console.log("download url", downloadURL);
+          // Save the URL and the rest of the form data in Firestore
+          try {
+            const docRef = doc(db, "foods", name); 
+            await setDoc(docRef, {
+              name,
+              imageUrl: downloadURL,
+              calories,
+              protein,
+              carbs,
+              fat,
+              fiber,
+              sugar,
+            });
+  
+            console.log("Document written with ID: ", docRef.id);
+          setStartUploading(false)
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        });
+      }
+    );
+    // setStartUploading(false)
   };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
+    // console.log('File type: ', file);
+    setFileType(file.type)
 
+    setImage(file);
     reader.onloadend = () => {
-      setImage(reader.result);
+      setImageShow(reader.result)
     };
 
     reader.readAsDataURL(file);
@@ -57,7 +118,7 @@ const FoodForm = () => {
         <Form.Group controlId="formBasicImage">
         <Form.Label>Image</Form.Label>
         <Form.Control type="file" onChange={handleImageChange} />
-        {image && <img src={image} alt="food" style={{ maxWidth: "200px", marginTop: "10px" }} />}
+        {imageShow && <img src={imageShow} alt="food" style={{ maxWidth: "200px", marginTop: "10px" }} />}
       </Form.Group>
 
         <Form.Group controlId="calories">
@@ -120,9 +181,9 @@ const FoodForm = () => {
           />
         </Form.Group>
 
-        <Button className="mt-2" variant="primary" type="submit">
+    {!startUploading ?    <Button disabled={!name || !image || !calories || !protein || !carbs || !fat || !fiber || !sugar} className="mt-2" variant="primary" type="submit">
           Submit
-        </Button>
+        </Button> : <SpinnerComponent /> }
       </Form>
         </Modal.Body>
 
