@@ -1,7 +1,7 @@
 import Header from "components/Header";
 import Container from "react-bootstrap/Container";
 import React, { useContext, useState } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Table } from "react-bootstrap";
 import firebase from "firebase/app";
 import "firebase/database";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -43,6 +43,7 @@ function AddFood() {
   const [userData, setUserData] = useState(null);
   const [randomValue, setRandomValue] = useState();
   const [sendingFoodForm, setSendingFoodForm] = useState(false);
+  const [total, setTotal] = useState([])
 
   // console.log("user is", user);
 
@@ -69,7 +70,6 @@ function AddFood() {
       } else {
         console.log("No such user!");
       }
-
     } else {
       console.log("Cant fetch user");
     }
@@ -139,7 +139,64 @@ function AddFood() {
     return () => {};
   }, [nutritionName]);
 
+  useEffect(() => {
+    if (userMealData) {
+      const total = calculateTotals(userMealData);
+      setTotal(total)
+      console.log("total", total);
+    }
+  }, [userMealData])
+  
+  const today = new Date()
+
+  const calculateTotals = (userMealData) => {
+
+    const arr = userMealData.filter(meal => {
+      if ((new Date(meal.data.date.toDate())).getUTCDate() === today.getUTCDate()) {
+        return meal
+      }
+    })
+
+    // const arr = userMealData;
+    let totalAmount = 0;
+    let calories = 0;
+    let protein = 0;
+    let carbs = 0;
+    let fat = 0;
+    let fiber = 0;
+    let sugar = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+      let data = arr[i].data;
+
+      totalAmount += parseFloat(data.amount);
+
+      for (let j = 0; j < data.nutrition.length; j++) {
+        let nutrition = data.nutrition[j];
+
+        calories += parseFloat(nutrition.calories);
+        protein += parseFloat(nutrition.protein);
+        carbs += parseFloat(nutrition.carbs);
+        fat += parseFloat(nutrition.fat);
+        fiber += parseFloat(nutrition.fiber);
+        sugar += parseFloat(nutrition.sugar);
+      }
+    }
+
+    return [
+      calories,
+      protein,
+      carbs,
+      fat,
+      fiber,
+      sugar,
+  ];
+  };
+
+
+
   console.log("userdata", userData);
+  // console.log("nutrionnamechanged", nutritionName, userData.daily_nutrient_goals.);
 
   return (
     <div>
@@ -260,12 +317,29 @@ function AddFood() {
 
                 <Modal.Body>
                   <p>Your progress goes here.</p>
-                  {randomValue && (
-                    <ProgressBar
-                      animated
-                      now={90}
-                      label={90}
-                    />
+                  {userMealData && userData && (
+                    <div>
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Nutrient</th>
+                            <th>Goal</th>
+                            <th>Total Consumption</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                            {nutritionNames.map((nut, index) =>
+                            <tr> 
+                              <td>{nut.name}</td>
+                              <td>{userData.daily_nutrient_goals[nut.name]}</td>
+                             { total && <td>{(total[index])?.toFixed(2)}</td>}
+                            </tr>
+                              )}
+                    
+                        </tbody>
+                      </Table>
+                    </div>
                   )}
                 </Modal.Body>
               </Modal.Dialog>

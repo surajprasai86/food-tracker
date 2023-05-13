@@ -69,7 +69,7 @@ function TableComponent({mealData}) {
   // setTotalFoodConsumptio(calculateTotals(todayMealData))
 
   const total = calculateTotals(todayMealData)
-  console.log("today total", total);
+  // console.log("today total", total);
   
 
 
