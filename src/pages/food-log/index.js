@@ -77,7 +77,7 @@ function AddFood() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user | !selectedMeal | !amount) {
+    if (!user | !selectedMeal | !amount | amount <= 0) {
       return alert("No user logged in");
     }
     setSendingFoodForm(true);
@@ -124,6 +124,7 @@ function AddFood() {
     setAmount(0);
     setSelectedMeal("Select a Meal");
     foodConsumedToday();
+    // setTotal(calculateTotals(userMealData))
   };
 
   const rand = Math.floor(Math.random() * 100);
@@ -262,7 +263,7 @@ function AddFood() {
                           variant="secondary"
                           type="submit"
                           size="lg"
-                          disabled={!amount | !selectedMeal}
+                          disabled={!amount | !selectedMeal | amount <= 0}
                         >
                           Submit
                         </Button>
@@ -324,18 +325,22 @@ function AddFood() {
                           <tr>
                             <th>Nutrient</th>
                             <th>Goal</th>
-                            <th>Total Consumption</th>
+                            <th>Total Cons.</th>
+                            <th>Recommendation</th>
                           </tr>
                         </thead>
                         <tbody>
                           
-                            {nutritionNames.map((nut, index) =>
+                            {today && nutritionNames.map((nut, index) =>
                             <tr> 
                               <td>{nut.name}</td>
                               <td>{userData.daily_nutrient_goals[nut.name]}</td>
-                             { total && <td>{(total[index])?.toFixed(2)}</td>}
+                             <td>{(total[index])?.toFixed(0)}</td>
+                             <td>{userData.daily_nutrient_goals[nut.name] > total[index].toFixed(0)  
+                             ? `Your daily goals is exceeded by ${userData.daily_nutrient_goals[nut.name] - total[index]?.toFixed(0) }.` : "You need to eat more." }</td>
                             </tr>
                               )}
+                              
                     
                         </tbody>
                       </Table>
