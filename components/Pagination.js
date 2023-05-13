@@ -27,6 +27,16 @@ function Pagination({ setPageNumber, pageNumber }) {
             3
           </a>
         </li>
+        <li className="page-item" onClick={(e) => onPageChange(e,4)}>
+          <a className="page-link" href="#">
+            4
+          </a>
+        </li>
+        <li className="page-item" onClick={(e) => onPageChange(e,5)}>
+          <a className="page-link" href="#">
+            5
+          </a>
+        </li>
         <li className="page-item">
           <a className="page-link" href="#">
             Next

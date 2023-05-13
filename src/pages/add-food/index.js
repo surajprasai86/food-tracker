@@ -19,6 +19,8 @@ const FoodForm = () => {
   const [fileType, setFileType] = useState("")
   const [imageShow, setImageShow] = useState("")
   const [startUploading, setStartUploading] = useState(false)
+  const [category, setcategory] = useState("Fruits")
+  const [advantages, setAdvantages] = useState("It is good for blood, and brain development.")
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -63,7 +65,9 @@ const FoodForm = () => {
               fat,
               fiber,
               sugar,
-            });
+              category,
+              advantages
+            }, { merge: true });
   
             console.log("Document written with ID: ", docRef.id);
           setStartUploading(false)
@@ -178,6 +182,26 @@ const FoodForm = () => {
             placeholder="Enter sugar"
             value={sugar}
             onChange={(event) => setSugar(event.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="category">
+          <Form.Label>Category</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter category"
+            value={category}
+            onChange={(event) => setcategory(event.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="Advantages">
+          <Form.Label>Advantages</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter advantages"
+            value={advantages}
+            onChange={(event) => setAdvantages(event.target.value)}
           />
         </Form.Group>
 
