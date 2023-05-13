@@ -55,7 +55,14 @@ function AddFood() {
       const querySnapshot = await getDocs(q);
       const docData = querySnapshot.docs.map((doc) => doc.data());
       const data = docData.filter((meal) => meal.data.user_uid === user.uid);
-      setUserMealData(data);
+
+      const todayMealData = data.filter(meal => {
+        if ((new Date(meal.data.date.toDate())).getUTCDate() === today.getUTCDate()) {
+          return meal
+        }
+      })
+
+      setUserMealData(todayMealData);
       // console.log("query snpashot", data);
     }
   };
@@ -144,7 +151,7 @@ function AddFood() {
     if (userMealData) {
       const total = calculateTotals(userMealData);
       setTotal(total)
-      console.log("total", total);
+      // console.log("total", total);
     }
   }, [userMealData])
   
@@ -196,7 +203,7 @@ function AddFood() {
 
 
 
-  console.log("userdata", userData);
+  // console.log("userdata", userData);
   // console.log("nutrionnamechanged", nutritionName, userData.daily_nutrient_goals.);
 
   return (
@@ -336,8 +343,8 @@ function AddFood() {
                               <td>{nut.name}</td>
                               <td>{userData.daily_nutrient_goals[nut.name]}</td>
                              <td>{(total[index])?.toFixed(0)}</td>
-                             <td>{userData.daily_nutrient_goals[nut.name] > total[index].toFixed(0)  
-                             ? `Your daily goals is exceeded by ${userData.daily_nutrient_goals[nut.name] - total[index]?.toFixed(0) }.` : "You need to eat more." }</td>
+                             <td>{Number(userData.daily_nutrient_goals[nut.name]) < Number(total[index]?.toFixed(0)  )
+                             ? `Your daily goals is exceeded by ${Math.abs(userData.daily_nutrient_goals[nut.name] - total[index]?.toFixed(0)) }.` : "You need to eat more." }</td>
                             </tr>
                               )}
                               
