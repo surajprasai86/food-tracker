@@ -19,6 +19,7 @@ import {
   where,
   getDocs,
   query,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "auth/firebase";
 import { useEffect } from "react";
@@ -41,9 +42,9 @@ function AddFood() {
   const [userMealData, setUserMealData] = useState(null);
   const [userData, setUserData] = useState(null);
   const [randomValue, setRandomValue] = useState();
-  const [sendingFoodForm, setSendingFoodForm] = useState(false)
+  const [sendingFoodForm, setSendingFoodForm] = useState(false);
 
-  // console.log("user is", userData);
+  // console.log("user is", user);
 
   // food consumed today:
   const foodConsumedToday = async () => {
@@ -60,49 +61,50 @@ function AddFood() {
 
   const userDataFetch = async () => {
     if (user) {
-      const q = query(collection(db, "users"));
-      const querySnapshot = await getDocs(q);
-      const data = querySnapshot.docs.map((doc) => {
-        if (doc.id === user.uid) return doc.data();
-      });
-      // console.log("query snpashot", data);
-      setUserData(data[1]);
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        console.log("User data:", docSnap.data());
+        setUserData(docSnap.data());
+      } else {
+        console.log("No such user!");
+      }
+
     } else {
       console.log("Cant fetch user");
     }
   };
 
   const handleSubmit = async (e) => {
-    
+    e.preventDefault();
     if (!user | !selectedMeal | !amount) {
       return alert("No user logged in");
     }
-    setSendingFoodForm(true)
-    e.preventDefault();
+    setSendingFoodForm(true);
     console.log("Add meal/food to db: ", selectedMeal, amount);
 
-    const foodArray= nutrionalValuesPer100gm.foods.filter(
+    const foodArray = nutrionalValuesPer100gm.foods.filter(
       (foodCompostion) =>
         String(foodCompostion.name).toLowerCase() ===
         String(selectedMeal).toLowerCase()
-    )
+    );
 
     const multipliedFoodArray = foodArray.map((food) => {
       const newFood = {};
-    
+
       for (const key in food) {
         if (food.hasOwnProperty(key)) {
           if (typeof food[key] === "number") {
-            newFood[key] = food[key] * amount;
+            newFood[key] = ((food[key] / 100) * amount).toFixed(2);
           } else {
             newFood[key] = food[key];
           }
         }
       }
-    
+
       return newFood;
     });
-    
+
     console.log(multipliedFoodArray);
 
     const data = {
@@ -118,10 +120,10 @@ function AddFood() {
     } catch (error) {
       console.log("error while sending meal info of user to meals", error);
     }
-    setSendingFoodForm(false)
-    setAmount(0)
-    setSelectedMeal("Select a Meal")
-    foodConsumedToday()
+    setSendingFoodForm(false);
+    setAmount(0);
+    setSelectedMeal("Select a Meal");
+    foodConsumedToday();
   };
 
   const rand = Math.floor(Math.random() * 100);
@@ -133,13 +135,11 @@ function AddFood() {
 
   useEffect(() => {
     setRandomValue(Math.floor(Math.random() * 100));
-    
-  
-    return () => {
-      
-    }
-  }, [nutritionName])
-  
+
+    return () => {};
+  }, [nutritionName]);
+
+  console.log("userdata", userData);
 
   return (
     <div>
@@ -199,15 +199,19 @@ function AddFood() {
                         />
                       </Form.Group>
 
-                   {!sendingFoodForm ? <Button
-                        className="mt-4"
-                        variant="secondary"
-                        type="submit"
-                        size="lg"
-                        disabled={!amount | ! selectedMeal}
-                      >
-                        Submit
-                      </Button>: <SpinnerComponent /> }
+                      {!sendingFoodForm ? (
+                        <Button
+                          className="mt-4"
+                          variant="secondary"
+                          type="submit"
+                          size="lg"
+                          disabled={!amount | !selectedMeal}
+                        >
+                          Submit
+                        </Button>
+                      ) : (
+                        <SpinnerComponent />
+                      )}
                     </Form>
                   </div>
                 </Modal.Body>
@@ -259,8 +263,8 @@ function AddFood() {
                   {randomValue && (
                     <ProgressBar
                       animated
-                      now={randomValue}
-                      label={randomValue}
+                      now={90}
+                      label={90}
                     />
                   )}
                 </Modal.Body>
@@ -299,7 +303,9 @@ function AddFood() {
                 </Modal.Header>
 
                 <Modal.Body>
-                {userMealData&&  <NutritionBreakdownChart userMealData={userMealData} />}
+                  {userMealData && (
+                    <NutritionBreakdownChart userMealData={userMealData} />
+                  )}
                 </Modal.Body>
               </Modal.Dialog>
             </div>

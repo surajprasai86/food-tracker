@@ -1,12 +1,14 @@
 import { collection, getDoc, query, where } from "firebase/firestore";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { DataContext } from "../components/DataContext";
 import SpinnerComponent from "./Spinner";
 
 function TableComponent({mealData}) {
+  const [totalFoodConsumptio, setTotalFoodConsumptio] = useState([])
   const data = useContext(DataContext);
   const { nutritioNames } = useContext(DataContext);
+  
 
   if (!mealData) {
     return <SpinnerComponent />
@@ -17,6 +19,59 @@ function TableComponent({mealData}) {
   const nutritionNames = data.foodData.nutritionNames;
   const users = data.userFoodConsumptionDetails;
   const user = data?.user?.uid
+
+  const today = new Date()
+
+  const todayMealData = mealData.filter(meal => {
+    if ((new Date(meal.data.date.toDate())).getUTCDate() === today.getUTCDate()) {
+      return meal
+    }
+  })
+
+  const calculateTotals = (arr) => {
+    let totalAmount = 0;
+    let totalCalories = 0;
+    let totalProtein = 0;
+    let totalCarbs = 0;
+    let totalFat = 0;
+    let totalFiber = 0;
+    let totalSugar = 0;
+  
+    for (let i = 0; i < arr.length; i++) {
+      let data = arr[i].data;
+      
+      totalAmount += parseFloat(data.amount);
+      
+      for (let j = 0; j < data.nutrition.length; j++) {
+        let nutrition = data.nutrition[j];
+  
+        totalCalories += parseFloat(nutrition.calories);
+        totalProtein += parseFloat(nutrition.protein);
+        totalCarbs += parseFloat(nutrition.carbs);
+        totalFat += parseFloat(nutrition.fat);
+        totalFiber += parseFloat(nutrition.fiber);
+        totalSugar += parseFloat(nutrition.sugar);
+      }
+    }
+  
+    return {
+      totalAmount,
+      totalCalories,
+      totalProtein,
+      totalCarbs,
+      totalFat,
+      totalFiber,
+      totalSugar
+    };
+  }
+  // const res =
+    
+  // setTotalFoodConsumptio(calculateTotals(todayMealData))
+
+  const total = calculateTotals(todayMealData)
+  console.log("today total", total);
+  
+
 
 
   return (
@@ -32,8 +87,9 @@ function TableComponent({mealData}) {
             ))}
           </tr>
         </thead>
-    { mealData && user &&   <tbody>
-          {mealData.map((meal, index) => {
+        <tbody>
+    { todayMealData && user &&  <> 
+          {todayMealData.map((meal, index) => {
             meal = meal.data
               return (
                 <tr key={index}>
@@ -47,7 +103,18 @@ function TableComponent({mealData}) {
                 </tr>
               );
           })}
-        </tbody>}
+      </>  }
+    {total &&  <tr key={"total"} >
+        <td>Total</td>
+        <td>{total.totalAmount.toFixed(2)}</td>
+        <td>{total.totalCalories.toFixed(2)}</td>
+        <td>{total.totalProtein.toFixed(2)}</td>
+        <td>{total.totalCarbs.toFixed(2)}</td>
+        <td>{total.totalFat.toFixed(2)}</td>
+        <td>{total.totalFiber.toFixed(2)}</td>
+        <td>{total.totalSugar.toFixed(2)}</td>
+      </tr>}
+      </tbody>
       </Table>}
     </>
 
